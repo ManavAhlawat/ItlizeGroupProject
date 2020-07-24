@@ -6,10 +6,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Entity
 @Table(name="user")
 public class User {
+
+    public User(){}
     //primary key
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -33,9 +36,9 @@ public class User {
     private String email;
 
     @Column(name="MemberSince")
-    private String memberSince;
+    private Date memberSince;
 
-    public User(String userName, String password, String firstName, String lastName, String email, String memberSince) {
+    public User(String userName, String password, String firstName, String lastName, String email, Date memberSince) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
@@ -68,7 +71,7 @@ public class User {
         return email;
     }
 
-    public String getMemberSince() {
+    public Date getMemberSince() {
         return memberSince;
     }
 
@@ -96,7 +99,7 @@ public class User {
         this.email = email;
     }
 
-    public void setMemberSince(String memberSince) {
+    public void setMemberSince(Date memberSince) {
         this.memberSince = memberSince;
     }
 
