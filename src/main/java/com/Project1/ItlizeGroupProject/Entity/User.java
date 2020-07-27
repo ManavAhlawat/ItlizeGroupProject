@@ -1,18 +1,23 @@
 package com.Project1.ItlizeGroupProject.Entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 
 @Entity
 @Table(name="user")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
+    public User(){
 
-    public User(){}
+    }
+
     //primary key
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -38,13 +43,20 @@ public class User {
     @Column(name="MemberSince")
     private Date memberSince;
 
-    public User(String userName, String password, String firstName, String lastName, String email, Date memberSince) {
+    @OneToMany(targetEntity = Project.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "UserProject_FK", referencedColumnName = "userID")
+    private List<Project> projects;
+
+
+
+    public User(String userName, String password, String firstName, String lastName, String email, Date memberSince, List<Project> projects) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.memberSince = memberSince;
+        this.projects = projects;
     }
 
     public int getUserID() {
@@ -103,4 +115,16 @@ public class User {
         this.memberSince = memberSince;
     }
 
+    public List<Project> getProjects() {
+            List<Project> listToReturn = new ArrayList<>();
+            for (Project p: projects) {
+                p.setUser(null);
+                listToReturn.add(p);
+            }
+        return listToReturn;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
 }

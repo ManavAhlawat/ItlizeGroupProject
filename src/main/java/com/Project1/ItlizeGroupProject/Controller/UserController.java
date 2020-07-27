@@ -38,7 +38,7 @@ public class UserController {
         return service.getUserByName(userName);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateUser")
     public User updateUser(@RequestBody User user){
         return service.updateUser(user);
     }
