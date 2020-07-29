@@ -43,6 +43,7 @@ public class User {
     @Column(name="MemberSince")
     private Date memberSince;
 
+
     @OneToMany(targetEntity = Project.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "UserProject_FK", referencedColumnName = "userID")
     private List<Project> projects;

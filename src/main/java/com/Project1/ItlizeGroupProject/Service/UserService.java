@@ -30,7 +30,7 @@ public class UserService {
     }
 
     public User getUserByName(String name){
-        return repository.findByUserName(name);
+        return repository.findByUserName(name).orElse(null);
     }
 
     public String deleteUser(int id){
