@@ -91,7 +91,7 @@ public class Project {
 
     public User getUser() {
         if(this.user != null)
-            this.user.setProjects(new ArrayList<>());
+            this.user.setProjects(new HashSet<>());
         return this.user;
     }
 

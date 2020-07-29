@@ -5,18 +5,13 @@ package com.Project1.ItlizeGroupProject.Entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Entity
 @Table(name="user")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
-    public User(){
-
-    }
 
     //primary key
     @Id
@@ -45,11 +40,27 @@ public class User {
 
     @OneToMany(targetEntity = Project.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "UserProject_FK", referencedColumnName = "userID")
-    private List<Project> projects;
+    private Set<Project> projects;
+
+    public User(){
+
+    }
 
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID=" + userID +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", memberSince=" + memberSince +
+                '}';
+    }
 
-    public User(String userName, String password, String firstName, String lastName, String email, Date memberSince, List<Project> projects) {
+    public User(String userName, String password, String firstName, String lastName, String email, Date memberSince, Set<Project> projects) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
@@ -58,6 +69,9 @@ public class User {
         this.memberSince = memberSince;
         this.projects = projects;
     }
+
+//    public <E> User(String manav, String $2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6, ArrayList<E> es) {
+//    }
 
 //    public <E> User(String userName, String password, ArrayList<E> es) {
 //    }
@@ -118,16 +132,16 @@ public class User {
         this.memberSince = memberSince;
     }
 
-    public List<Project> getProjects() {
-            List<Project> listToReturn = new ArrayList<>();
+    public Set<Project> getProjects() {
+            Set<Project> setToReturn = new HashSet<>();
             for (Project p: projects) {
                 p.setUser(null);
-                listToReturn.add(p);
+                setToReturn.add(p);
             }
-        return listToReturn;
+        return setToReturn;
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
 }

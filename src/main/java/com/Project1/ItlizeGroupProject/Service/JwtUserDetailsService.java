@@ -1,20 +1,34 @@
 package com.Project1.ItlizeGroupProject.Service;
 
 import java.util.ArrayList;
-import org.springframework.security.core.userdetails.User;
+
+import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.Project1.ItlizeGroupProject.Repository.UserRepository;
+import com.Project1.ItlizeGroupProject.Entity.User;
+
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if ("Manav".equals(username)) {
-            return new User("Manav", "$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6",
-                    new ArrayList<>());
-        } else {
+        User user = userRepository.findByUserName(username);
+        if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
+        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
+                new ArrayList<>());
     }
+
+
 }
