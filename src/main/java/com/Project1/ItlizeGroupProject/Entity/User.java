@@ -59,6 +59,9 @@ public class User {
         this.projects = projects;
     }
 
+//    public <E> User(String userName, String password, ArrayList<E> es) {
+//    }
+
     public int getUserID() {
         return userID;
     }
