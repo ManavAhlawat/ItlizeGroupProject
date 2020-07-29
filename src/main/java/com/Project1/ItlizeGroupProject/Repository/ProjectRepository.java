@@ -1,19 +1,13 @@
 package com.Project1.ItlizeGroupProject.Repository;
 
-
+import com.Project1.ItlizeGroupProject.Entity.Project;
 import com.Project1.ItlizeGroupProject.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
-//import java.util.List;
-
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
-    Optional<User> findByUserName(String userName);
-
-    //User deleteByUserID(Integer integer);
+    Project findByProjectName(String projectName);
 
 }
