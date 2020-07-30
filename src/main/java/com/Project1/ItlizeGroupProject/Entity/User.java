@@ -1,16 +1,14 @@
 package com.Project1.ItlizeGroupProject.Entity;
 
 
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import javax.persistence.*;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
 @Table(name="user")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
     //primary key

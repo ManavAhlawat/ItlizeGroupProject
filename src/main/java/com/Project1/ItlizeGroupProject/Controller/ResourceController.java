@@ -1,8 +1,7 @@
 package com.Project1.ItlizeGroupProject.Controller;
 
-import com.Project1.ItlizeGroupProject.Entity.Project;
-import com.Project1.ItlizeGroupProject.Entity.Resource;
 import com.Project1.ItlizeGroupProject.Service.ResourceService;
+import com.Project1.ItlizeGroupProject.TO.ResourceTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,22 +14,25 @@ public class ResourceController {
     private ResourceService service;
 
     @GetMapping("/resources")
-    public List<Resource> getResources(){
+    public List<ResourceTO> getResources(){
         return service.getResources();
     }
-
+    @PostMapping("/createResource")
+    public ResourceTO createResource(@RequestBody ResourceTO resource){
+        return service.createResource(resource);
+    }
     @GetMapping("/resourceByID/{resourceCode}")
-    public Resource findResourceById(@PathVariable int resourceCode){
+    public ResourceTO findResourceById(@PathVariable int resourceCode){
         return service.getResourceById(resourceCode);
     }
 
     @GetMapping("/resource/{resourceName}")
-    public Resource findResourceByName(@PathVariable String resourceName){
+    public ResourceTO findResourceByName(@PathVariable String resourceName){
         return service.getResourceByName(resourceName);
     }
 
     @PutMapping("/updateResource")
-    public Resource updateResource(@RequestBody Resource resource){
+    public ResourceTO updateResource(@RequestBody ResourceTO resource){
         return service.updateResource(resource);
     }
 

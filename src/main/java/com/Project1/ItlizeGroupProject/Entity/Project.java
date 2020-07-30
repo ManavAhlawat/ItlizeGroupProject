@@ -1,19 +1,13 @@
 package com.Project1.ItlizeGroupProject.Entity;
 
 
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
 @Entity
 @Table(name="project")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Project {
 
     @Id

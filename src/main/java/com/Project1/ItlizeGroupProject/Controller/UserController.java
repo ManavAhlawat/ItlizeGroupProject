@@ -1,21 +1,13 @@
 package com.Project1.ItlizeGroupProject.Controller;
 
-import com.Project1.ItlizeGroupProject.Entity.Project;
-import com.Project1.ItlizeGroupProject.Entity.User;
-import com.Project1.ItlizeGroupProject.Models.AuthenticationRequest;
 import com.Project1.ItlizeGroupProject.Service.UserService;
+import com.Project1.ItlizeGroupProject.TO.UserTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -41,11 +33,10 @@ public class UserController {
 //    }
 
     @PostMapping("/register")
-    public ResponseEntity<?> addUser(@RequestBody User user){
-        if(user.getUserName().equals(service.getUserByName(user.getUserName()))){
+    public ResponseEntity<?> addUser(@RequestBody UserTO user){
+        if(user.getUsername().equals(service.getUserByName(user.getUsername()))){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        user.setProjects(new HashSet<>());
         user.setPassword(bcryptEncoder.encode(user.getPassword()));
         System.out.println(user);
         return new ResponseEntity<>(service.saveUser(user),HttpStatus.CREATED);
@@ -68,28 +59,23 @@ public class UserController {
 //        return service.saveUser(user);
 //    }
 
-    @PostMapping("/addUsers")
-    public List<User> addUsers(@RequestBody List<User> users){
-        return service.saveUsers(users);
-    }
-
     @GetMapping("/users")
-    public List<User> findAllUsers(){
+    public List<UserTO> findAllUsers(){
         return service.getUsers();
     }
 
     @GetMapping("/userByID/{userID}")
-    public User findUserById(@PathVariable int userID){
+    public UserTO findUserById(@PathVariable int userID){
         return service.getUserById(userID);
     }
 
     @GetMapping("/user/{userName}")
-    public User findUserByName(@PathVariable String userName){
+    public UserTO findUserByName(@PathVariable String userName){
         return service.getUserByName(userName);
     }
 
     @PutMapping("/updateUser")
-    public User updateUser(@RequestBody User user){
+    public UserTO updateUser(@RequestBody UserTO user){
         return service.updateUser(user);
     }
 
@@ -97,8 +83,4 @@ public class UserController {
     public String deleteUser(@PathVariable int id){
         return service.deleteUser(id);
     }
-
-
-
-
 }
