@@ -8,9 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -38,21 +41,11 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         user.setPassword(bcryptEncoder.encode(user.getPassword()));
-        System.out.println(user);
+        user.setMemberSince(Calendar.getInstance().getTime());
+        //System.out.println(user);
         return new ResponseEntity<>(service.saveUser(user),HttpStatus.CREATED);
     }
 
-//    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-//    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-//
-//        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-//
-//        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-//
-//        final String token = jwtTokenUtil.generateToken(userDetails);
-//
-//        return ResponseEntity.ok(new JwtResponse(token));
-//    }
 
 //    @PostMapping("/addUser")
 //    public User addUser(@RequestBody User user){
@@ -80,7 +73,8 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser/{id}")
-    public String deleteUser(@PathVariable int id){
-        return service.deleteUser(id);
+    public ResponseEntity<?> deleteUser(@PathVariable int id){
+        return ResponseEntity.ok(service.deleteUser(id));
+//        return service.deleteUser(id);
     }
 }
