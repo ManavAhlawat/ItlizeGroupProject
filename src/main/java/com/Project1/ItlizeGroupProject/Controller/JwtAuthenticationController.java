@@ -1,8 +1,7 @@
 package com.Project1.ItlizeGroupProject.Controller;
 
-import java.util.Objects;
-
 import com.Project1.ItlizeGroupProject.Service.JwtUserDetailsService;
+import com.Project1.ItlizeGroupProject.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,7 +10,6 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import com.Project1.ItlizeGroupProject.Service.JwtUserDetailsService;
 import com.Project1.ItlizeGroupProject.Util.JwtUtil;
 import com.Project1.ItlizeGroupProject.Models.AuthenticationRequest;
 import com.Project1.ItlizeGroupProject.Models.AuthenticationResponse;
@@ -24,6 +22,8 @@ public class JwtAuthenticationController {
     private JwtUtil jwtTokenUtil;
     @Autowired
     private JwtUserDetailsService userDetailsService;
+    @Autowired
+    private UserService userService;
 
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
@@ -32,7 +32,7 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new AuthenticationResponse(token));
+        return ResponseEntity.ok(new AuthenticationResponse(token,userService.getByUserName(authenticationRequest.getUsername())));
     }
 
     @RequestMapping(value = "/refresh-token", method = RequestMethod.GET)
@@ -41,7 +41,7 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(jwtTokenUtil.getUsernameFromToken(token));
         final String strToken = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new AuthenticationResponse(strToken));
+        return ResponseEntity.ok(new AuthenticationResponse(strToken, userService.getByUserName(userDetails.getUsername())));
     }
 
 

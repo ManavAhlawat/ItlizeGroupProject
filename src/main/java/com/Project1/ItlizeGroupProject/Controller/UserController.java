@@ -8,8 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 @RestController
@@ -37,12 +38,12 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> addUser(@RequestBody UserTO user){
-        if(user.getUsername().equals(service.getUserByName(user.getUsername()))){
+        if(user.getUsername().equals(service.getByUserName(user.getUsername()))){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         user.setPassword(bcryptEncoder.encode(user.getPassword()));
-        user.setMemberSince(Calendar.getInstance().getTime());
-        //System.out.println(user);
+//        user.setMemberSince(Calendar.getInstance().getTime());
+        System.out.println(user);
         return new ResponseEntity<>(service.saveUser(user),HttpStatus.CREATED);
     }
 
@@ -64,7 +65,7 @@ public class UserController {
 
     @GetMapping("/user/{userName}")
     public UserTO findUserByName(@PathVariable String userName){
-        return service.getUserByName(userName);
+        return service.getByUserName(userName);
     }
 
     @PutMapping("/updateUser")

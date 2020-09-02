@@ -8,10 +8,8 @@ import com.Project1.ItlizeGroupProject.TO.UserTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -20,8 +18,10 @@ public class UserService {
     private UserRepository repository;
 
     public boolean saveUser(UserTO user){
-
-        if(repository.save(createUserEntity(user)) != null)
+        Date memberSince = new Date(Calendar.getInstance().getTimeInMillis());
+        User userEntity = createUserEntity(user);
+        userEntity.setMemberSince(memberSince);
+        if(repository.save(userEntity) != null)
             return true;
         return false;
     }
@@ -39,8 +39,8 @@ public class UserService {
         return createUserTO(repository.findById(userID).orElse(null));
     }
 
-    public UserTO getUserByName(String name){
-        return createUserTO(repository.findByUserName(name));
+    public UserTO getByUserName(String userName){
+        return createUserTO(repository.findByUserName(userName));
     }
 
     public String deleteUser(int id){
@@ -55,7 +55,6 @@ public class UserService {
         existingUser.setFirstName(user.getFirstName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
-        existingUser.setMemberSince(user.getMemberSince());
         Set<Project> projects = new HashSet<>();
         for(ProjectTO p: user.getProjects()){
             p.setUser(user);
@@ -75,6 +74,7 @@ public class UserService {
         userEntity.setLastName(userTO.getLastName());
         userEntity.setEmail(userTO.getEmail());
         userEntity.setPassword(userTO.getPassword());
+        //userEntity.setMemberSince(userTO.getMemberSince());
         return userEntity;
     }
 
@@ -86,7 +86,9 @@ public class UserService {
             userTO.setUsername(userEntity.getUserName());
             userTO.setFirstName(userEntity.getFirstName());
             userTO.setLastName(userEntity.getLastName());
-            userTO.setMemberSince(userEntity.getMemberSince());
+            Date memberSince = userEntity.getMemberSince();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MMMM-dd");
+            userTO.setMemberSince(dateFormat.format(memberSince));
             userTO.setPassword(userEntity.getPassword());
             userTO.setUserID(userEntity.getUserID());
             List<ProjectTO> listOfUserProjects = new ArrayList<>();

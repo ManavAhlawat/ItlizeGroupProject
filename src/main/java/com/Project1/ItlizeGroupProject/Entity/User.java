@@ -1,6 +1,8 @@
 package com.Project1.ItlizeGroupProject.Entity;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -33,7 +35,10 @@ public class User {
     @Column(name="email")
     private String email;
 
-    @Column(name="MemberSince")
+    @Column(name="memberSince")
+    //@Basic
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date memberSince;
 
     @OneToMany(targetEntity = Project.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)

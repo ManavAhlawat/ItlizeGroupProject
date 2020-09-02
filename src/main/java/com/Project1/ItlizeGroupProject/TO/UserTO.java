@@ -2,7 +2,6 @@ package com.Project1.ItlizeGroupProject.TO;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,7 +13,7 @@ public class UserTO {
     private String firstName;
     private String lastName;
     private String email;
-    private Date memberSince;
+    private String memberSince;
     private List<ProjectTO> projects;
 
 
@@ -66,11 +65,11 @@ public class UserTO {
         this.email = email;
     }
 
-    public Date getMemberSince() {
+    public String getMemberSince() {
         return memberSince;
     }
 
-    public void setMemberSince(Date memberSince) {
+    public void setMemberSince(String memberSince) {
         this.memberSince = memberSince;
     }
 
